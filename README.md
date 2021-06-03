@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://img-a.udemycdn.com/course/240x135/2702376_2365_6.jpg" alt="Clean Node API">
+  <img src="https://raw.githubusercontent.com/rmanguinho/clean-ts-api/master/public/img/logo-course.png" alt="Clean Node API">
   <br><br>
   Clean Node API
 </h1>
