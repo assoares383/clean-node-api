@@ -3,13 +3,15 @@ import { MissingParamError } from '../errors/missing-params-error';
 import { badRequest } from '../helpers/http-helpers';
 
 export class SignUpController {
-  handle = (httpRequest: HttpRequest): HttpResponse => {
+  // eslint-disable-next-line consistent-return
+  handle(httpRequest: HttpRequest): HttpResponse {
     const requiredFields = ['name', 'email'];
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {
         return badRequest(new MissingParamError(field));
       }
     }
-  };
+  }
 }
