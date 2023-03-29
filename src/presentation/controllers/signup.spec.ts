@@ -35,7 +35,7 @@ describe('SignUp Controller', () => {
       body: {
         email: 'any_email@gmail.com',
         password: 'any_password',
-        password_confirmation: 'any_password',
+        passwordConfirmation: 'any_password',
       },
     };
 
@@ -68,7 +68,7 @@ describe('SignUp Controller', () => {
       body: {
         name: 'any_name',
         email: 'any_email@gmail.com',
-        password_confirmation: 'any_password',
+        passwordConfirmation: 'any_password',
       },
     };
 
@@ -92,7 +92,7 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(
-      new MissingParamError('password_confirmation'),
+      new MissingParamError('passwordConfirmation'),
     );
   });
 
@@ -103,7 +103,7 @@ describe('SignUp Controller', () => {
         name: 'any_name',
         email: 'any_email@gmail.com',
         password: 'any_password',
-        password_confirmation: 'invalid_password',
+        passwordConfirmation: 'invalid_password',
       },
     };
 
@@ -111,7 +111,7 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(
-      new InvalidParamError('password_confirmation'),
+      new InvalidParamError('passwordConfirmation'),
     );
   });
 
@@ -124,7 +124,7 @@ describe('SignUp Controller', () => {
         name: 'any_name',
         email: 'invalid_email@gmail.com',
         password: 'any_password',
-        password_confirmation: 'any_password',
+        passwordConfirmation: 'any_password',
       },
     };
 
@@ -143,7 +143,7 @@ describe('SignUp Controller', () => {
         name: 'any_name',
         email: 'any_email@gmail.com',
         password: 'any_password',
-        password_confirmation: 'any_password',
+        passwordConfirmation: 'any_password',
       },
     };
 
@@ -163,7 +163,7 @@ describe('SignUp Controller', () => {
         name: 'any_name',
         email: 'any_email@gmail.com',
         password: 'any_password',
-        password_confirmation: 'any_password',
+        passwordConfirmation: 'any_password',
       },
     };
 
