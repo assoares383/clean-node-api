@@ -1,13 +1,13 @@
 /* eslint-disable consistent-return */
 import {
+  AddAccount,
   Controller,
   EmailValidator,
   HttpResponse,
   HttpRequest,
-} from '../protocols';
-import { MissingParamError, InvalidParamError } from '../errors';
-import { badRequest, serverError } from '../helpers/http-helpers';
-import { AddAccount } from '../../domain/usecases/add-account';
+} from './signup-protocols';
+import { MissingParamError, InvalidParamError } from '../../errors';
+import { badRequest, serverError } from '../../helpers/http-helpers';
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
@@ -34,6 +34,7 @@ export class SignUpController implements Controller {
         }
       }
 
+      // eslint-disable-next-line object-curly-newline
       const { name, email, password, passwordConfirmation } = httpRequest.body;
 
       if (password !== passwordConfirmation) {
