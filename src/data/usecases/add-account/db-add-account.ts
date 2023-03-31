@@ -21,12 +21,11 @@ export class DbAddAccount implements AddAccount {
 
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const hashedPassword = await this.encrypter.encrypt(accountData.password);
-    await this.addAccountRepository.add(
+    const account = await this.addAccountRepository.add(
       // eslint-disable-next-line prefer-object-spread
       Object.assign({}, accountData, { password: hashedPassword }),
     );
 
-    // eslint-disable-next-line arrow-parens
-    return new Promise(resolve => resolve(null));
+    return account;
   }
 }
