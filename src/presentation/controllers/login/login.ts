@@ -17,7 +17,9 @@ export class LoginController implements Controller {
 
   // eslint-disable-next-line consistent-return
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    if (!httpRequest.body.email) {
+    const { email, password } = httpRequest.body;
+
+    if (!email) {
       return new Promise(
         resolve =>
           // eslint-disable-next-line implicit-arrow-linebreak
@@ -26,7 +28,7 @@ export class LoginController implements Controller {
       );
     }
 
-    if (!httpRequest.body.password) {
+    if (!password) {
       return new Promise(
         resolve =>
           // eslint-disable-next-line implicit-arrow-linebreak
@@ -35,7 +37,7 @@ export class LoginController implements Controller {
       );
     }
 
-    const isValid = this.emailValidator.isValid(httpRequest.body.email);
+    const isValid = this.emailValidator.isValid(email);
 
     if (!isValid) {
       return new Promise(
