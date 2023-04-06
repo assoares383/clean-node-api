@@ -1,5 +1,9 @@
 /* eslint-disable arrow-parens */
-import { badRequest, serverError } from '../../helpers/http-helpers';
+import {
+  badRequest,
+  serverError,
+  unauthorized,
+} from '../../helpers/http-helpers';
 import {
   Controller,
   EmailValidator,
@@ -36,7 +40,11 @@ export class LoginController implements Controller {
         return badRequest(new InvalidParamError('email'));
       }
 
-      await this.authentication.auth(email, password);
+      const accessToken = await this.authentication.auth(email, password);
+
+      if (!accessToken) {
+        return unauthorized();
+      }
     } catch (error) {
       return serverError(error);
     }
