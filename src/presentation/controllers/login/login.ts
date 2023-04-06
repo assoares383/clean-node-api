@@ -7,12 +7,16 @@ import {
   HttpResponse,
 } from '../../protocols';
 import { InvalidParamError, MissingParamError } from '../../errors';
+import { Authentication } from '../../../domain/usecases/authentication';
 
 export class LoginController implements Controller {
   private readonly emailValidator: EmailValidator;
 
-  constructor(emailValidator: EmailValidator) {
+  private readonly authentication: Authentication;
+
+  constructor(emailValidator: EmailValidator, authentication: Authentication) {
     this.emailValidator = emailValidator;
+    this.authentication = authentication;
   }
 
   // eslint-disable-next-line consistent-return
@@ -48,6 +52,8 @@ export class LoginController implements Controller {
           // eslint-disable-next-line function-paren-newline
         );
       }
+
+      await this.authentication.auth(email, password);
     } catch (error) {
       return serverError(error);
     }
