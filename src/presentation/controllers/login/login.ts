@@ -1,9 +1,20 @@
 /* eslint-disable arrow-parens */
 import { badRequest } from '../../helpers/http-helpers';
-import { Controller, HttpRequest, HttpResponse } from '../../protocols';
+import {
+  Controller,
+  EmailValidator,
+  HttpRequest,
+  HttpResponse,
+} from '../../protocols';
 import { MissingParamError } from '../../errors';
 
 export class LoginController implements Controller {
+  private readonly emailValidator: EmailValidator;
+
+  constructor(emailValidator: EmailValidator) {
+    this.emailValidator = emailValidator;
+  }
+
   // eslint-disable-next-line consistent-return
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     if (!httpRequest.body.email) {
@@ -23,5 +34,7 @@ export class LoginController implements Controller {
         // eslint-disable-next-line function-paren-newline
       );
     }
+
+    this.emailValidator.isValid(httpRequest.body.email);
   }
 }
