@@ -5,13 +5,13 @@ import {
   unauthorized,
 } from '../../helpers/http-helpers';
 import {
+  Authentication,
   Controller,
   EmailValidator,
   HttpRequest,
   HttpResponse,
-} from '../../protocols';
+} from './login-protocols';
 import { InvalidParamError, MissingParamError } from '../../errors';
-import { Authentication } from '../../../domain/usecases/authentication';
 
 export class LoginController implements Controller {
   private readonly emailValidator: EmailValidator;
