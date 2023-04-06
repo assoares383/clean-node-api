@@ -6,7 +6,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '../../protocols';
-import { MissingParamError } from '../../errors';
+import { InvalidParamError, MissingParamError } from '../../errors';
 
 export class LoginController implements Controller {
   private readonly emailValidator: EmailValidator;
@@ -35,6 +35,15 @@ export class LoginController implements Controller {
       );
     }
 
-    this.emailValidator.isValid(httpRequest.body.email);
+    const isValid = this.emailValidator.isValid(httpRequest.body.email);
+
+    if (!isValid) {
+      return new Promise(
+        resolve =>
+          // eslint-disable-next-line implicit-arrow-linebreak
+          resolve(badRequest(new InvalidParamError('email'))),
+        // eslint-disable-next-line function-paren-newline
+      );
+    }
   }
 }
