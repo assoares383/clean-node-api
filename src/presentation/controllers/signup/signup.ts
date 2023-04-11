@@ -7,7 +7,7 @@ import {
   HttpRequest,
   Validation,
 } from './signup-protocols';
-import { MissingParamError, InvalidParamError } from '../../errors';
+import { InvalidParamError } from '../../errors';
 import { badRequest, serverError, ok } from '../../helpers/http-helpers';
 
 export class SignUpController implements Controller {
@@ -32,18 +32,6 @@ export class SignUpController implements Controller {
       const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badRequest(error);
-      }
-      const requireFields = [
-        'name',
-        'email',
-        'password',
-        'passwordConfirmation',
-      ];
-
-      for (const field of requireFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field));
-        }
       }
 
       // eslint-disable-next-line object-curly-newline
