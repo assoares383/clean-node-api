@@ -35,11 +35,7 @@ export class SignUpController implements Controller {
       }
 
       // eslint-disable-next-line object-curly-newline
-      const { name, email, password, passwordConfirmation } = httpRequest.body;
-
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'));
-      }
+      const { name, email, password } = httpRequest.body;
 
       const isValid = this.emailValidator.isValid(email);
 
