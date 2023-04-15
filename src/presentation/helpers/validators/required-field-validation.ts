@@ -1,4 +1,4 @@
-import { Validation } from './validation';
+import { Validation } from '../../protocols/validation';
 // eslint-disable-next-line import/no-useless-path-segments
 import { MissingParamError } from '../../../presentation/errors';
 
