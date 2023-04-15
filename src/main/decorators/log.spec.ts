@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '../../presentation/protocols';
-import { serverError, ok } from '../../presentation/helpers/http-helpers';
+import { serverError, ok } from '../../presentation/helpers/http/http-helpers';
 import { LogControllerDecorator } from './log';
 import { LogErrorRepository } from '../../data/protocols/log-error-repository';
 import { AccountModel } from '../../domain/models/account';
