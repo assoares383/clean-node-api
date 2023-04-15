@@ -2,7 +2,7 @@ import { Validation } from './validation';
 // eslint-disable-next-line import/no-useless-path-segments
 import { MissingParamError } from '../../../presentation/errors';
 
-export class RequireFieldValidation implements Validation {
+export class RequiredFieldValidation implements Validation {
   private readonly fieldName: string;
 
   constructor(fieldName: string) {
