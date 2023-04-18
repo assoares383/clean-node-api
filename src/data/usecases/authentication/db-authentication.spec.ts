@@ -1,13 +1,14 @@
-/* eslint-disable arrow-parens */
 /* eslint-disable brace-style */
 /* eslint-disable indent */
-import { AccountModel } from '../add-account/db-add-account-protocols';
-import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
 import { DbAuthentication } from './db-authentication';
-import { AuthenticationModel } from '../../../domain/usecases/authentication';
-import { HashComparer } from '../../protocols/criptography/hash-comparer';
-import { TokenGenerator } from '../../protocols/criptography/token-generator';
-import { UpdateAccessTokenRepository } from '../../protocols/criptography/update-access-token-repository';
+import {
+  AccountModel,
+  LoadAccountByEmailRepository,
+  UpdateAccessTokenRepository,
+  AuthenticationModel,
+  HashComparer,
+  TokenGenerator,
+} from './db-authentication-protocols';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
@@ -144,6 +145,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, hashComparerStub } = makeSut();
     jest
       .spyOn(hashComparerStub, 'compare')
+      // eslint-disable-next-line arrow-parens
       .mockReturnValueOnce(new Promise(resolve => resolve(false)));
     const accessToken = await sut.auth(makeFakeAuthentication());
     expect(accessToken).toBeNull();
