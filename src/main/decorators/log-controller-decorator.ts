@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import {
   Controller,
   HttpRequest,
@@ -6,14 +7,10 @@ import {
 import { LogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
 
 export class LogControllerDecorator implements Controller {
-  private readonly controller: Controller;
-
-  private readonly logErrorRepository: LogErrorRepository;
-
-  constructor(controller: Controller, logErrorRepository: LogErrorRepository) {
-    this.controller = controller;
-    this.logErrorRepository = logErrorRepository;
-  }
+  constructor(
+    private readonly controller: Controller,
+    private readonly logErrorRepository: LogErrorRepository,
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
