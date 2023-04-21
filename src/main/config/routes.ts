@@ -1,14 +1,15 @@
-import { Express, Router } from 'express';
-import fg from 'fast-glob';
+/* eslint-disable arrow-parens */
+import * as fs from 'fs';
+import * as express from 'express';
 
-export default (app: Express): void => {
-  const router = Router();
+export default (app: express.Express): void => {
+  const router = express.Router();
   app.use('/api', router);
 
-  // eslint-disable-next-line arrow-parens
-  fg.sync('**/src/main/routes/**routes.ts').map(
-    // eslint-disable-next-line arrow-parens
-    async file => (await import(`../../../${file}`)).default(router),
-    // eslint-disable-next-line function-paren-newline
-  );
+  // eslint-disable-next-line no-console
+  fs.readdirSync(`${__dirname}/../routes`).map(async file => {
+    if (file.includes('.test.')) {
+      (await import(`../routes/${file}`)).default(router);
+    }
+  });
 };
