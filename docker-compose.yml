@@ -13,9 +13,9 @@ services:
     build: .
     image: clean-node-api
     restart: always
-    command: npm start
+    command: yarn start
     volumes:
-      - ./dist:/usr/src/clean-node-api
+      - ./dist:/usr/src/clean-node-api/dist
     ports:
       - "5050:5050"
     links:
