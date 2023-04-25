@@ -1,7 +1,7 @@
-FROM node:16
+FROM node:16.14.2
 WORKDIR /usr/src/clean-node-api
 COPY ./package.json .
-RUN yarn add --only=prod
+RUN npm install --production --legacy-peer-deps
 COPY ./dist ./dist
 EXPOSE 9001
-CMD yarn start
+CMD npm start
