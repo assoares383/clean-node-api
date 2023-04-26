@@ -1,13 +1,27 @@
 import { SignUpController } from './signup-controller';
-import { MissingParamError, ServerError } from '../../errors';
+import { ServerError, MissingParamError } from '../../errors';
+import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import {
   AccountModel,
   AddAccount,
   AddAccountModel,
   Validation,
+  Authentication,
+  AuthenticationModel,
 } from './signup-controller-protocols';
 import { HttpRequest } from '../../protocols';
-import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
+
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async auth(authentication: AuthenticationModel): Promise<string> {
+      // eslint-disable-next-line arrow-parens
+      return new Promise(resolve => resolve('any_token'));
+    }
+  }
+
+  return new AuthenticationStub();
+};
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -19,7 +33,7 @@ const makeFakeAccount = (): AccountModel => ({
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
-    email: 'any_email@gmail.com',
+    email: 'any_email@mail.com',
     password: 'any_password',
     passwordConfirmation: 'any_password',
   },
@@ -29,6 +43,7 @@ interface SutTypes {
   sut: SignUpController;
   addAccountStub: AddAccount;
   validationStub: Validation;
+  authenticationStub: Authentication;
 }
 
 const makeAddAccount = (): AddAccount => {
@@ -54,14 +69,20 @@ const makeValidation = (): Validation => {
 };
 
 const makeSut = (): SutTypes => {
+  const authenticationStub = makeAuthentication();
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
-  const sut = new SignUpController(addAccountStub, validationStub);
+  const sut = new SignUpController(
+    addAccountStub,
+    validationStub,
+    authenticationStub,
+  );
 
   return {
     sut,
     addAccountStub,
     validationStub,
+    authenticationStub,
   };
 };
 
@@ -84,7 +105,7 @@ describe('SignUp Controller', () => {
     await sut.handle(makeFakeRequest());
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
-      email: 'any_email@gmail.com',
+      email: 'any_email@mail.com',
       password: 'any_password',
     });
   });
@@ -113,5 +134,15 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(
       badRequest(new MissingParamError('any_field')),
     );
+  });
+
+  test('Should call Authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut();
+    const authSpy = jest.spyOn(authenticationStub, 'auth');
+    await sut.handle(makeFakeRequest());
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
   });
 });
