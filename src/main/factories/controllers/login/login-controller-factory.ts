@@ -9,5 +9,5 @@ export const makeLoginController = (): Controller => {
     makeDbAuthentication(),
     makeLoginValidation(),
   );
-  makeLogControllerDecorator(controller);
+  return makeLogControllerDecorator(controller);
 };
