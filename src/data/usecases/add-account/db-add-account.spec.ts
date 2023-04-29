@@ -1,3 +1,5 @@
+/* eslint-disable brace-style */
+/* eslint-disable indent */
 import { DbAddAccount } from './db-add-account';
 import {
   AccountModel,
@@ -27,7 +29,7 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async loadByEmail(email: string): Promise<AccountModel> {
       // eslint-disable-next-line arrow-parens
-      return new Promise(resolve => resolve(makeFakeAccount()));
+      return new Promise(resolve => resolve(null));
     }
   }
 
@@ -128,6 +130,16 @@ describe('Db Add Account Usecase', () => {
     const { sut } = makeSut();
     const account = await sut.add(makeFakeAccountData());
     expect(account).toEqual(makeFakeAccount());
+  });
+
+  test('Should return null if LoadAccountByEmailRepository not return null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+      // eslint-disable-next-line arrow-parens
+      .mockReturnValueOnce(new Promise(resolve => resolve(makeFakeAccount())));
+    const account = await sut.add(makeFakeAccountData());
+    expect(account).toBeNull();
   });
 
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
