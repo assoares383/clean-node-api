@@ -4,4 +4,4 @@ data
 dist
 coverage
 .vscode
-.env
+globalConfig.json
