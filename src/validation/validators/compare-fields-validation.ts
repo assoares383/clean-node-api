@@ -1,7 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-useless-constructor */
-import { Validation } from '../../protocols/validation';
+import { Validation } from '../../presentation/protocols';
 // eslint-disable-next-line import/no-useless-path-segments
-import { InvalidParamError } from '../../errors';
+import { InvalidParamError } from '../../presentation/errors';
 
 export class CompareFieldsValidation implements Validation {
   constructor(

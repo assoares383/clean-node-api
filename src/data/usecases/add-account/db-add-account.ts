@@ -2,20 +2,18 @@ import {
   AddAccount,
   AddAccountModel,
   AccountModel,
-  AddAccountRepository,
   Hasher,
+  AddAccountRepository,
   LoadAccountByEmailRepository,
 } from './db-add-account-protocols';
 
 export class DbAddAccount implements AddAccount {
+  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly hasher: Hasher,
     private readonly addAccountRepository: AddAccountRepository,
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
-  ) {
-    this.hasher = hasher;
-    this.addAccountRepository = addAccountRepository;
-  }
+  ) {}
 
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
